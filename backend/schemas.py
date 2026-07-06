@@ -1,8 +1,8 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import date
 
+
 class RawgBase(BaseModel):
-    # Core fields from API call
     rawg_id: int
     slug: str
     name: str
