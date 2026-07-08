@@ -5,7 +5,7 @@ RAWG_URL = 'https://api.rawg.io/api/games/'
 
 def search_rawg_games(game_name: str) -> dict:
     """
-    Function to connect with RAWG's API, returning a result on a python dict format.
+    Function to connect with RAWG's API, returning the result as a python dict.
     """
     try:
         rawg_response = requests.get(RAWG_URL, params={"key": settings.rawg_api_key, "search": game_name})
