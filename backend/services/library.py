@@ -20,7 +20,7 @@ def get_library_game(db: Session, game_id: int) -> s.ShowLibrary:
 
 def get_library_games(db: Session, skip: int = 0, limit: int = 10) -> list[s.ShowLibrary]:
     """
-    Function to GET a sample of games from the library (SELECT). [First 10 games, by default]
+    Function to GET a sample of games from the library (SELECT). [First 10 games by default]
     """
     return db.query(m.Library).offset(skip).limit(limit).all()
 
