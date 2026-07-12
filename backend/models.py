@@ -2,6 +2,7 @@ from backend.database import Base
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import date, datetime
 
+
 class Library(Base):
     __tablename__ = "library"
     id: Mapped[int] = mapped_column(primary_key=True)

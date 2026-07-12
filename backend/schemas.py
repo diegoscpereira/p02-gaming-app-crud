@@ -21,13 +21,14 @@ class RawgBase(BaseModel):
         if not value:
             return None
         return ", ".join(p["platform"]["name"] for p in value)
-    
+
     @field_validator("genres", mode="before")
     @classmethod
     def flatten_genres(cls, value):
         if not value:
             return None
         return ", ".join(g["name"] for g in value)
+
 
 class SaveGameLibrary(BaseModel):
     rawg_id: int = Field(alias="id")
@@ -45,10 +46,12 @@ class SaveGameLibrary(BaseModel):
     user_rating: int | None = Field(ge=0, le=10, default=None)
     comment: str | None = None
 
+
 class EditGameLibrary(BaseModel):
     status: str | None = None
     user_rating: int | None = Field(ge=0, le=10, default=None)
     comment: str | None = None
+
 
 class ShowLibrary(SaveGameLibrary):
     id: int

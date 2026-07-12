@@ -4,6 +4,7 @@ from backend.schemas import RawgBase
 
 router = APIRouter(prefix="/explore")
 
+
 @router.get("/", response_model=list[RawgBase])
 def get_rawg_games(query: str):
     """

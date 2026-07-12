@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 import backend.models as m
 import backend.schemas as s
 
+
 def create_library_games(db: Session, game: s.SaveGameLibrary) -> s.ShowLibrary:
     """
     Function to CREATE a new game record in the user's library (INSERT).
@@ -12,17 +13,22 @@ def create_library_games(db: Session, game: s.SaveGameLibrary) -> s.ShowLibrary:
     db.refresh(db_game)
     return db_game
 
+
 def select_library_game(db: Session, game_id: int) -> s.ShowLibrary:
     """
     Function to GET a game record from the library (SELECT).
     """
     return db.query(m.Library).filter(m.Library.id == game_id).first()
 
-def select_library_games(db: Session, skip: int = 0, limit: int = 10) -> list[s.ShowLibrary]:
+
+def select_library_games(
+    db: Session, skip: int = 0, limit: int = 10
+) -> list[s.ShowLibrary]:
     """
     Function to GET a sample of games from the library (SELECT). [First 10 games by default]
     """
     return db.query(m.Library).offset(skip).limit(limit).all()
+
 
 def delete_game(db: Session, game_id: int) -> s.ShowLibrary | None:
     """
@@ -35,7 +41,10 @@ def delete_game(db: Session, game_id: int) -> s.ShowLibrary | None:
     db.commit()
     return db_game
 
-def edit_library_game(db: Session, game_id: int, games: s.EditGameLibrary) -> s.ShowLibrary | None:
+
+def edit_library_game(
+    db: Session, game_id: int, games: s.EditGameLibrary
+) -> s.ShowLibrary | None:
     """
     Function to UPDATE a game record in the library (UPDATE).
     """

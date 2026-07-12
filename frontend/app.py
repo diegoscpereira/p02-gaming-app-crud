@@ -17,6 +17,7 @@ API_URL = "http://localhost:8000"
 # Explore page — search RAWG, save results to the library
 # ---------------------------------------------------------------------------
 
+
 @ui.page("/")
 def explore_page():
     with ui.row().classes("w-full items-center justify-between"):
@@ -39,7 +40,9 @@ def explore_page():
         search_button.props("loading")
         try:
             async with httpx.AsyncClient() as client:
-                response = await client.get(f"{API_URL}/explore/", params={"query": query})
+                response = await client.get(
+                    f"{API_URL}/explore/", params={"query": query}
+                )
                 response.raise_for_status()
                 games = response.json()
         except httpx.HTTPError:
@@ -62,11 +65,15 @@ def explore_page():
             with ui.row().classes("w-full items-center justify-between"):
                 with ui.row().classes("items-center gap-4"):
                     if game.get("background_image"):
-                        ui.image(game["background_image"]).classes("w-24 h-16 object-cover rounded")
+                        ui.image(game["background_image"]).classes(
+                            "w-24 h-16 object-cover rounded"
+                        )
                     with ui.column().classes("gap-0"):
                         ui.label(game["name"]).classes("text-lg font-semibold")
                         ui.label(f"Released: {game.get('released') or 'Unknown'}")
-                        ui.label(f"Rating: {game.get('rating')} · Metacritic: {game.get('metacritic') or 'N/A'}")
+                        ui.label(
+                            f"Rating: {game.get('rating')} · Metacritic: {game.get('metacritic') or 'N/A'}"
+                        )
                         ui.label(f"Genres: {game.get('genres') or '—'}")
                         ui.label(f"Platforms: {game.get('platforms') or '—'}")
                 ui.button("Save to Library", on_click=lambda g=game: save_game(g))
@@ -88,6 +95,7 @@ def explore_page():
 # Library page — view, edit, delete saved games
 # ---------------------------------------------------------------------------
 
+
 @ui.page("/library")
 def library_page():
     with ui.row().classes("w-full items-center justify-between"):
@@ -100,7 +108,9 @@ def library_page():
         library_container.clear()
         async with httpx.AsyncClient() as client:
             try:
-                response = await client.get(f"{API_URL}/library/", params={"limit": 100})
+                response = await client.get(
+                    f"{API_URL}/library/", params={"limit": 100}
+                )
                 response.raise_for_status()
                 games = response.json()
             except httpx.HTTPError:
@@ -121,17 +131,23 @@ def library_page():
             with ui.row().classes("w-full items-center justify-between"):
                 with ui.row().classes("items-center gap-4"):
                     if game.get("background_image"):
-                        ui.image(game["background_image"]).classes("w-20 h-14 object-cover rounded")
+                        ui.image(game["background_image"]).classes(
+                            "w-20 h-14 object-cover rounded"
+                        )
                     with ui.column().classes("gap-0"):
                         ui.label(game["name"]).classes("text-lg font-semibold")
                         ui.label(f"Status: {game.get('status') or 'Not set'}")
-                        ui.label(f"My rating: {game.get('user_rating') if game.get('user_rating') is not None else '—'} / 10")
+                        ui.label(
+                            f"My rating: {game.get('user_rating') if game.get('user_rating') is not None else '—'} / 10"
+                        )
                         ui.label(f"Comment: {game.get('comment') or '—'}")
                         ui.label(f"Added: {game.get('date_added')}")
 
                 with ui.row().classes("gap-2"):
                     ui.button("Edit", on_click=lambda g=game: open_edit_dialog(g))
-                    ui.button("Delete", color="red", on_click=lambda g=game: delete_game(g))
+                    ui.button(
+                        "Delete", color="red", on_click=lambda g=game: delete_game(g)
+                    )
 
     def open_edit_dialog(game: dict):
         with ui.dialog() as dialog, ui.card():
@@ -141,8 +157,12 @@ def library_page():
                 label="Status",
                 value=game.get("status"),
             ).classes("w-64")
-            rating_input = ui.number(label="My rating (0-10)", min=0, max=10, value=game.get("user_rating")).classes("w-64")
-            comment_input = ui.textarea(label="Comment", value=game.get("comment") or "").classes("w-64")
+            rating_input = ui.number(
+                label="My rating (0-10)", min=0, max=10, value=game.get("user_rating")
+            ).classes("w-64")
+            comment_input = ui.textarea(
+                label="Comment", value=game.get("comment") or ""
+            ).classes("w-64")
 
             async def save_edit():
                 payload = {
@@ -152,7 +172,9 @@ def library_page():
                 }
                 async with httpx.AsyncClient() as client:
                     try:
-                        response = await client.put(f"{API_URL}/library/{game['id']}", json=payload)
+                        response = await client.put(
+                            f"{API_URL}/library/{game['id']}", json=payload
+                        )
                         response.raise_for_status()
                         ui.notify("Updated.", type="positive")
                     except httpx.HTTPError:
@@ -172,7 +194,9 @@ def library_page():
             try:
                 response = await client.delete(f"{API_URL}/library/{game['id']}")
                 response.raise_for_status()
-                ui.notify(f'"{game["name"]}" removed from your library.', type="positive")
+                ui.notify(
+                    f'"{game["name"]}" removed from your library.', type="positive"
+                )
             except httpx.HTTPError:
                 ui.notify("Could not delete this game.", type="negative")
                 return
