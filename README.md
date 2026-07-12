@@ -34,12 +34,12 @@ A full-stack CRUD application that lets you search the [RAWG](https://rawg.io) v
 
 | Layer | Tool | Why |
 |---|---|---|
-| Backend framework | **FastAPI** | Type-hint-driven validation, automatic docs, async-ready |
+| Backend framework | **FastAPI** | Type-hint-driven validation, automatic docs |
 | Data validation | **Pydantic v2** | Schema validation and data cleaning at every system boundary |
 | ORM | **SQLAlchemy 2.0** | Typed models, database-agnostic persistence |
-| Database | **SQLite** | Zero-setup for local development; swapping to PostgreSQL is a one-line change to the connection URL |
+| Database | **SQLite** | Zero-setup for local development; swapping to a different db is a one-line change to the connection URL |
 | Config | **pydantic-settings** | Typed, fail-fast environment configuration |
-| Frontend | **NiceGUI** | Pure-Python interactive UI, calls the API exactly like any other client |
+| Frontend | **NiceGUI** | Pure-Python interactive UI, calls the API like any other client |
 | HTTP client | **httpx** | Async-friendly requests, used both server-side (RAWG calls) and client-side (frontend → backend) |
 | External data source | **[RAWG Video Games API](https://rawg.io/apidocs)** | Free, no-cost tier; 500,000+ game catalog |
 | Environment | **uv** | Fast, modern Python dependency management |
@@ -60,34 +60,34 @@ The frontend never touches the database directly — it only ever talks to the b
 ```
 backend/
 ├── main.py              # FastAPI app instance, router registration
-├── config.py             # Typed settings (pydantic-settings), reads .env once
-├── database.py             # SQLAlchemy engine, session factory, Base
-├── models.py                 # Library table (SQLAlchemy)
-├── schemas.py                  # Pydantic schemas — one per system boundary
-├── rawg_client.py                # Thin HTTP client for the RAWG API only
+├── config.py            # Typed settings (pydantic-settings), reads .env once
+├── database.py          # SQLAlchemy engine, session factory, Base
+├── models.py            # Library table (SQLAlchemy)
+├── schemas.py           # Pydantic schemas — one per system boundary
+├── rawg_client.py       # Thin HTTP client for the RAWG API only
 ├── services/
-│   ├── explore.py                  # Search RAWG, validate + clean results
-│   └── library.py                    # All database CRUD operations
+│   ├── explore.py       # Search RAWG, validate + clean results
+│   └── library.py       # All database CRUD operations
 └── routers/
-    ├── explore.py                      # GET /explore/ — search endpoint
-    └── library.py                        # /library/ — full CRUD endpoints
+    ├── explore.py       # GET /explore/ — search endpoint
+    └── library.py       # /library/ — full CRUD endpoints
 
 frontend/
-└── app.py                # NiceGUI pages: Explore + My Library
+└── app.py               # NiceGUI pages: Explore + My Library
 ```
 
-**Design principle:** each file answers one question.
+**Design principle:** each file answers a unique question.
 - `models.py` — how does data live in *my* database?
 - `schemas.py` — what does data look like as it *crosses a boundary* (API in/out, RAWG in)?
 - `rawg_client.py` — how do I talk to RAWG, and nothing else?
 - `services/` — what actually happens (business logic, database operations)?
 - `routers/` — how does an HTTP request map to that logic?
 
-### A key design decision: single table, not normalized
+### Design decision: single table, not normalized
 
 `Library` stores both the RAWG snapshot (title, description, rating, platforms, etc.) *and* the user's own data (status, rating, comment) in one table, rather than a normalized `games` + `library` pair joined by a foreign key.
 
-**Trade-off, chosen deliberately:** if a game is deleted and re-added later, its RAWG data is re-fetched rather than reused. For a single-user portfolio project, that's a negligible cost, and it keeps the schema simple. A normalized version — separating "facts about a game" from "a user's relationship to a game" — is a natural, documented v2 refactor if this were to support multiple users.
+**Trade-off:** if a game is deleted and re-added later, its RAWG data is re-fetched rather than reused. For a single-user portfolio project, that's a negligible cost, and it keeps the schema simple. A normalized version — separating "facts about a game" from "a user's relationship to a game" — is a natural, documented v2 refactor if this were to support multiple users.
 
 ---
 
@@ -161,9 +161,3 @@ These are deliberately out of scope for v1, to keep the project focused on core 
 - [ ] Swap SQLite → PostgreSQL (one-line change to `database.py`) + Docker Compose
 - [ ] Deploy (e.g. Cloud Run) with a live demo link
 - [ ] Alembic migrations instead of `create_all`
-
----
-
-## Author
-
-Built by **Diego Pereira** as a portfolio project — [GitHub](https://github.com/diegoscpereira)
