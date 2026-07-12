@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from backend.services.explore import explore_games
 from backend.schemas import RawgBase
 
