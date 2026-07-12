@@ -1,4 +1,4 @@
-# 🎮 Game Library — CRUD API + Dashboard
+# 🎮 Game Library — CRUD API Project
 
 A full-stack CRUD application that lets you search the [RAWG](https://rawg.io) video game database, save games to a personal library, and track your own status, rating, and comments for each one — built to demonstrate backend/data-engineering fundamentals: API design, relational modeling, data validation, and clean service-layer architecture.
 
