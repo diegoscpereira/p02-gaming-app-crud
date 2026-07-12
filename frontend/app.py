@@ -19,7 +19,9 @@ API_URL = "http://localhost:8000"
 
 @ui.page("/")
 def explore_page():
-    ui.label("Explore Games").classes("text-2xl font-bold")
+    with ui.row().classes("w-full items-center justify-between"):
+        ui.label("Explore Games").classes("text-2xl font-bold")
+        ui.link("Go to My Library", "/library")
 
     with ui.row().classes("w-full items-center"):
         search_input = ui.input(label="Search for a game").classes("w-80")
@@ -66,6 +68,7 @@ def explore_page():
                         ui.label(f"Released: {game.get('released') or 'Unknown'}")
                         ui.label(f"Rating: {game.get('rating')} · Metacritic: {game.get('metacritic') or 'N/A'}")
                         ui.label(f"Genres: {game.get('genres') or '—'}")
+                        ui.label(f"Platforms: {game.get('platforms') or '—'}")
                 ui.button("Save to Library", on_click=lambda g=game: save_game(g))
 
     async def save_game(game: dict):
@@ -80,8 +83,6 @@ def explore_page():
     search_button.on_click(do_search)
     search_input.on("keydown.enter", do_search)
 
-    ui.link("Go to My Library", "/library").classes("mt-4")
-
 
 # ---------------------------------------------------------------------------
 # Library page — view, edit, delete saved games
@@ -89,8 +90,9 @@ def explore_page():
 
 @ui.page("/library")
 def library_page():
-    ui.label("My Library").classes("text-2xl font-bold")
-    ui.link("Back to Explore", "/").classes("mb-4")
+    with ui.row().classes("w-full items-center justify-between"):
+        ui.label("My Library").classes("text-2xl font-bold")
+        ui.link("Back to Explore", "/")
 
     library_container = ui.column().classes("w-full gap-2")
 
@@ -124,6 +126,7 @@ def library_page():
                         ui.label(game["name"]).classes("text-lg font-semibold")
                         ui.label(f"Status: {game.get('status') or 'Not set'}")
                         ui.label(f"My rating: {game.get('user_rating') if game.get('user_rating') is not None else '—'} / 10")
+                        ui.label(f"Comment: {game.get('comment') or '—'}")
                         ui.label(f"Added: {game.get('date_added')}")
 
                 with ui.row().classes("gap-2"):
