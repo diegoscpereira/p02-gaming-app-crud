@@ -1,7 +1,7 @@
 from backend.config import settings
 import requests
 
-RAWG_URL = 'https://api.rawg.io/api/games/'
+RAWG_URL = 'https://api.rawg.io/api/games'
 
 def search_rawg_games(game_name: str) -> dict:
     """
