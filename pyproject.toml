@@ -10,6 +10,7 @@ dependencies = [
     "nicegui>=3.14.0",
     "pydantic-settings>=2.14.2",
     "requests>=2.34.2",
+    "ruff>=0.15.21",
     "sqlalchemy>=2.0.51",
     "uvicorn>=0.50.0",
 ]
