@@ -1,13 +1,5 @@
 # 🎮 Game Library — CRUD API Project
 
-A full-stack CRUD application that lets you search the [RAWG](https://rawg.io) video game database, save games to a personal library, and track your own status, rating, and comments for each one — built to demonstrate backend/data-engineering fundamentals: API design, relational modeling, data validation, and clean service-layer architecture.
-
-![Demo](docs/demo_p02_crud_project.gif)
-
----
-
-## Badges
-
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-CC2927)
@@ -16,6 +8,10 @@ A full-stack CRUD application that lets you search the [RAWG](https://rawg.io) v
 ![NiceGUI](https://img.shields.io/badge/NiceGUI-frontend-5C2D91)
 ![uv](https://img.shields.io/badge/uv-package%20manager-DE5FE9)
 ![License](https://img.shields.io/badge/license-MIT-green)
+
+A full-stack CRUD application that lets you search the [RAWG](https://rawg.io) video game database, save games to a personal library, and track your own status, rating, and comments for each one — built to demonstrate backend/data-engineering fundamentals: API design, relational modeling, data validation, and clean service-layer architecture.
+
+![Demo](docs/demo_p02_crud_project.gif)
 
 ---
 
